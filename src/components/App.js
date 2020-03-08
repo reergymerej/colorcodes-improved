@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { increment, decrement } from '../actions'
+import ColorInfo from './ColorInfo'
 
 class App extends Component {
   render() {
@@ -16,17 +17,8 @@ class App extends Component {
               />
             </div>
 
-            <div className="p-3 flex flex-col justify-center bg-black text-white">
-              <div>
-                rgb(200, 150, 200)
-              </div>
-              <div>
-                #AA88AA
-              </div>
-              <div>
-                color name
-              </div>
-            </div>
+            <ColorInfo />
+
           </div>
         </div>
       </div>
