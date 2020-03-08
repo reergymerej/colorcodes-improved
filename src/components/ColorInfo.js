@@ -12,16 +12,7 @@ const Blue = withColor('blue')
 
 const RGB = ({ r = 0, g = 0, b = 0 }) => (
   <div>
-    <Red>
-      r
-    </Red>
-    <Green>
-      g
-    </Green>
-    <Blue>
-      b
-    </Blue>
-    (
+    rgb(
     <Red>
       {r}
     </Red>
@@ -37,6 +28,21 @@ const RGB = ({ r = 0, g = 0, b = 0 }) => (
   </div>
 )
 
+const Hex = ({ r = 0, g = 0, b = 0 }) => (
+  <div>
+    #
+    <Red>
+      {r.toString(16)}
+    </Red>
+    <Green>
+      {g.toString(16)}
+    </Green>
+    <Blue>
+      {b.toString(16)}
+    </Blue>
+  </div>
+)
+
 const ColorInfo = () => (
   <div className="p-3 flex flex-col justify-center bg-black text-white">
     <RGB
@@ -44,9 +50,11 @@ const ColorInfo = () => (
       g={150}
       b={200}
     />
-    <div>
-      #AA88AA
-    </div>
+    <Hex
+      r={200}
+      g={150}
+      b={200}
+    />
     <div>
       color name
     </div>
