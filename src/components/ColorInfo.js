@@ -43,20 +43,20 @@ const Hex = ({ r = 0, g = 0, b = 0 }) => (
   </div>
 )
 
-const ColorInfo = () => (
+const ColorInfo = ({ r = 0, g = 0, b = 0, name = '' }) => (
   <div className="p-3 flex flex-col justify-center bg-black text-white">
     <RGB
-      r={200}
-      g={150}
-      b={200}
+      r={r}
+      g={g}
+      b={b}
     />
     <Hex
-      r={200}
-      g={150}
-      b={200}
+      r={r}
+      g={g}
+      b={b}
     />
     <div>
-      color name
+      {name}
     </div>
   </div>
 )
