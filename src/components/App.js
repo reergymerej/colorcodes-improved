@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { increment, decrement } from '../actions'
+import React, { Component } from 'react'
 import ColorInfo from './ColorInfo'
+import namedColors from 'color-name-list'
 
 const rgbPattern = /.+?(\d+).*?,.*?(\d+).*?,.*?(\d+)/
 const hexPattern = /#?([0-9a-f]{1,2})([0-9a-f]{1,2})([0-9a-f]{1,2})/i
@@ -36,12 +35,38 @@ const isRGB = (value) => rgbPattern.test(value)
 const isHex = (value) => hexPattern.test(value)
 
 const getRGB = (value) => {
+  let result
+  let name = ''
   if (isRGB(value)) {
-    return parseRGB(value)
+    result = parseRGB(value)
   } else if (isHex(value)) {
-    return parseHex(value)
+    result = parseHex(value)
+  } else {
+    name = value
   }
-  return {}
+
+  let foundColor
+
+  const lowerValue = value.toLowerCase()
+  if (result && !name) {
+    const hex = `#${result.r.toString(16)}${result.g.toString(16)}${result.b.toString(16)}`
+    foundColor = namedColors.find(color => color.hex === hex)
+    if (foundColor) {
+      name = foundColor.name
+    }
+  } else {
+    foundColor = namedColors.find(color => color.name.toLowerCase() === lowerValue)
+    if (foundColor) {
+      result = parseHex(foundColor.hex)
+    }
+  }
+  result = result || {}
+  return {
+    r: result.r,
+    g: result.g,
+    b: result.b,
+    name,
+  }
 }
 
 class App extends Component {
@@ -54,8 +79,7 @@ class App extends Component {
   }
 
   render() {
-    const { r, g, b } = getRGB(this.state.value)
-    const name = ''
+    const { r, g, b, name } = getRGB(this.state.value)
 
     return (
       <div className="container mx-auto my-8">
@@ -85,13 +109,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  count: state.count,
-})
-
-const mapDispatchToProps = {
-  increment,
-  decrement,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App
