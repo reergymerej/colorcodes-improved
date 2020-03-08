@@ -73,7 +73,7 @@ const Hex = ({ r = 0, g = 0, b = 0 }) => {
 }
 
 const ColorInfo = ({ r = 0, g = 0, b = 0, name = '' }) => (
-  <div className="p-3 flex flex-col justify-center bg-black text-white">
+  <div className="h-full p-3 flex flex-col justify-fill bg-gray-400 text-gray-800">
     <RGB
       r={r}
       g={g}
