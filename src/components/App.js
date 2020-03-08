@@ -4,6 +4,7 @@ import { increment, decrement } from '../actions'
 import ColorInfo from './ColorInfo'
 
 const rgbPattern = /.+?(\d+).*?,.*?(\d+).*?,.*?(\d+)/
+const hexPattern = /#?([0-9a-f]{1,2})([0-9a-f]{1,2})([0-9a-f]{1,2})/i
 
 const parseRGB = (string) => {
   const matches = rgbPattern.exec(string)
@@ -18,18 +19,34 @@ const parseRGB = (string) => {
   throw new Error(`invalid rgb: ${string}`)
 }
 
+const parseHex = (string) => {
+  const matches = hexPattern.exec(string)
+  if (matches) {
+    const [, r, g, b] = matches
+    return {
+      r: parseInt(r, 16),
+      g: parseInt(g, 16),
+      b: parseInt(b, 16),
+    }
+  }
+  throw new Error(`invalid rgb: ${string}`)
+}
+
 const isRGB = (value) => rgbPattern.test(value)
+const isHex = (value) => hexPattern.test(value)
 
 const getRGB = (value) => {
   if (isRGB(value)) {
     return parseRGB(value)
+  } else if (isHex(value)) {
+    return parseHex(value)
   }
   return {}
 }
 
 class App extends Component {
   state = {
-    value: 'rgb(200, 150, 200)',
+    value: '#c80f0a',
   }
 
   handleInputChange = (event) => {
