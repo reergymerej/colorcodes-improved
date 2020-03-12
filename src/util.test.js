@@ -43,3 +43,9 @@ describe('adding hex colors', () => {
     })
   })
 })
+
+fdescribe('toHex', () => {
+  // {"r":255,"g":30.379061371841154,"b":114.15162454873646}
+    // background = `rgb(${r}${g}${b})`
+
+})

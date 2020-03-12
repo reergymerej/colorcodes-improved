@@ -33,7 +33,11 @@ class Color extends Component {
     }
 
     return (
-      <div className="h-24 flex border border-black mb-4" style={{background: hex }}>
+      <div className="h-24 flex border border-black mb-4" style={{background: hex }}
+        onClick={() => {
+          this.props.onClick({r, g, b})
+        }}
+      >
 
         <div className="flex-1 flex justify-center items-center">
           <input

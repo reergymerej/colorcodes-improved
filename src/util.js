@@ -59,7 +59,7 @@ const padLeft = (length, value) => {
 }
 
 export const toHex = (x) => {
-  return padLeft(2, x.toString(16))
+  return padLeft(2, Math.round(x).toString(16))
 }
 
 export const getRGB = (value) => {

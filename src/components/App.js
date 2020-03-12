@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Color from './Color'
+import Chip from './Chip'
+import PlainChip from './PlainChip'
 import { getRGB, addHex } from '../util'
 
 class App extends Component {
@@ -32,34 +34,70 @@ class App extends Component {
     }
   }
 
+  handleStartSelecting = chip => () => {
+    this.setState({
+      selecting: chip,
+    })
+  }
+
+  handleStopSelecting = () => () => {
+    this.setState({
+      selecting: null,
+    })
+  }
+
+  handleColorClick = (color) => {
+    if (this.state.selecting) {
+      this.setState((prevState) => ({
+        [prevState.selecting]: color,
+        selecting: null,
+      }))
+    }
+  }
+
   render() {
     const { chipA, chipB } = this.state
     const composite = chipA && chipB && addHex(chipA, chipB)
-    let compositeResult
-    if (composite) {
-      // TODO: round down
-      compositeResult = `rgb(${composite.r}, ${composite.g}, ${composite.b})`
-    }
     return (
       <div className="container mx-auto my-8">
         <div>
-          <Color
-            onChange={this.handleColorChange('chipA')}
+          <h3 className="text-5xl">Color Mixing</h3>
+          <div className="flex">
+          <Chip
+            onStartSelecting={this.handleStartSelecting('chipA')}
+            onStopSelecting={this.handleStopSelecting('chipA')}
+            isSelecting={this.state.selecting === 'chipA'}
+            color={this.state.chipA}
           />
-          <Color
-            onChange={this.handleColorChange('chipB')}
+
+          <Chip
+            onStartSelecting={this.handleStartSelecting('chipB')}
+            onStopSelecting={this.handleStopSelecting('chipB')}
+            isSelecting={this.state.selecting === 'chipB'}
+            color={this.state.chipB}
           />
-          <div style={{background: compositeResult }}>result: {compositeResult}</div>
+
+          <PlainChip
+            color={composite}
+          />
+          </div>
+
         </div>
-        { this.state.colors.map((item) => {
-            return (
-              <Color
-                key={item.key}
-                onNewColor={this.handleAddColor}
-              />
-            )
+
+        <h3 className="text-5xl">Palette</h3>
+
+        <div className="overflow-scroll">
+      { this.state.colors.map((item) => {
+        return (
+          <Color
+            key={item.key}
+            onNewColor={this.handleAddColor}
+            onClick={this.handleColorClick}
+          />
+        )
         })
         }
+          </div>
         <button onClick={this.handleAddColor}>add color</button>
       </div>
     )
